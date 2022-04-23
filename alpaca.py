@@ -11,10 +11,10 @@ import warnings
 
 warnings.filterwarnings('ignore', 'Discarding nonzero nanoseconds in conversion', )
 
-path_api_key = "C:/Users/pchya/Desktop/keys/apikey.txt"
-path_api_secret = "C:/Users/pchya/Desktop/keys/apisecret.txt"
-path_paper_api_key = "C:/Users/pchya/Desktop/keys/paperapikey.txt"
-path_paper_api_secret = "C:/Users/pchya/Desktop/keys/paperapisecret.txt"
+path_api_key = "C:/Users/xyz/Desktop/keys/apikey.txt"
+path_api_secret = "C:/Users/xyz/Desktop/keys/apisecret.txt"
+path_paper_api_key = "C:/Users/xyz/Desktop/keys/paperapikey.txt"
+path_paper_api_secret = "C:/Users/xyz/Desktop/keys/paperapisecret.txt"
 
 f = open(path_api_key, 'r')
 API_KEY = f.read()
