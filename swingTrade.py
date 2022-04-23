@@ -147,5 +147,3 @@ def predict_next(price_data, model, iterations, ending_price, segment_length):
         return ending_price
     else:
         return ending_price
-
-print(predict_swing_gain('TSLA'))
