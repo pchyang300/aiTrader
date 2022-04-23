@@ -27,4 +27,4 @@ This was created with Python 3.8.
 To use, install the dependencies from requirement.txt. 
 Either enter API keys into the alpaca.py file or put them into a text file and provide
 the path in alpaca.py. 
-Run main.py
+Finally run main.py.
