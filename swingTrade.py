@@ -1,24 +1,13 @@
-import pandas as pd
-import numpy as np
-import pandas as df
-import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
 from keras.layers import LSTM, Dense, Dropout
 from alpaca_trade_api.rest import REST, TimeFrame, TimeFrameUnit
 import alpaca_trade_api as tradeapi
 import datetime
 from datetime import date
-import yfinance as yf
-import tensorflow as tf
-import os
-import sys, os
 import numpy as np
 import numpy
-import tensorflow as tf
 import tensorflow.keras as keras
 import tensorflow as tf
-import tensorflow_addons as tfa
-from tensorflow.python.ops import math_ops
 from keras import backend as K
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -60,14 +49,8 @@ def predict_swing_gain(symbol):
     print(df)
 
     df = df['open'].values
-    unit_size_ratio = 0.04
 
     segment_length = 500
-    esn_unit_size = int(unit_size_ratio * len(df))
-
-    # If the df length is too long, it causes memory problems. So we have to trim it.
-    if len(df) > 10000:
-        esn_unit_size = int(unit_size_ratio * 10000)
 
     df_predict_original = np.array(df[-segment_length:])
     print(df)
