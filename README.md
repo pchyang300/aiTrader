@@ -12,10 +12,12 @@ Once training is completed the next 30 minute price is recursively predicted for
 The highest predicted gain percentage are the stock picks and are written into stock_picks.txt. 
 Once the stock market opens, an asyncio task list will be created where each stock pick 
 will be "trailed" for a good entry position using the strategy of trailing buy. The stock 
-will be purchased and monitored daily for price movement. If it gains reach within 75% of 
+will be purchased and monitored daily for price movement. Once purchased it will be written
+into the holdings.txt file. If the stock gains reach within 75% of 
 the predicted amount, then a trailing sell will be executed. If the stock loses more than
-5% then the stock will be sold. This program will loop forever generating stock picks 
-during the weekends and execute stock trading for each individual stock the following 
+5% then the stock will be sold. Once a stock is sold, the next stock in line from stocks.txt
+will be placed into the asyncio task list. This program will loop forever generating stock 
+picks during the weekends and execute stock trading for each individual stock the following 
 weekdays. 
 
 This program requires API keys that can be obtained from opening a free account with 
