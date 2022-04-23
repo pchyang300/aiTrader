@@ -29,8 +29,9 @@ f.close()
 paper_base_url = 'https://paper-api.alpaca.markets'
 live_url = "https://api.alpaca.markets"
 
-api = tradeapi.REST(API_KEY, API_SECRET, live_url, api_version='v2')
-#api = tradeapi.REST(PAPER_API_KEY, PAPER_API_SECRET, paper_base_url, api_version='v2')
+# Switch between live or paper trading here:
+#api = tradeapi.REST(API_KEY, API_SECRET, live_url, api_version='v2')
+api = tradeapi.REST(PAPER_API_KEY, PAPER_API_SECRET, paper_base_url, api_version='v2')
 
 
 async def buy_all(symbol, amount):
