@@ -28,3 +28,6 @@ To use, install the dependencies from requirement.txt.
 Either enter API keys into the alpaca.py file or put them into a text file and provide
 the path in alpaca.py. 
 Finally run main.py.
+
+Disclamer of Liability:
+The material and information contained on this website is for general information purposes only. You should not rely upon the material or information on this website as a basis for making any business, investment, or any other decisions. 
