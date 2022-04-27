@@ -166,7 +166,6 @@ while True:
                 pass
 
 
-    # If you have sold all holdings, then wait 24 hours everyday until next stock pick
     if len(current_stock_picks) == 0 and len(old_stock_purchases) == 0:
         new_stock_picks = {}
         for i in range(egg_basket):
