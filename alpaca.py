@@ -405,12 +405,12 @@ async def trailing_sell(symbol):
 
 async def trailing_buy(symbol, amount, change):
     cnt = 0
+    bought = False
     while cnt < 5:
         try:
             min_price = get_quote(symbol)
             percent_change = 0
             pullback_percentage = 1.6  # Experiment with this number
-            bought = False
 
             while percent_change < pullback_percentage and is_market_open():
                 lst = []
@@ -424,62 +424,63 @@ async def trailing_buy(symbol, amount, change):
                     print(f"---->NEW {symbol} MINIMUM PRICE: ${min_price:.2f}")
                 percent_change = ((next_price - min_price) / min_price) * 100
                 print(f'Trailing {symbol}... current price: ${next_price:.2f}       pullback: {percent_change:.2f}%')
-
-            if is_market_open():
-                cnt = 0
-                while cnt < 5:
-                    try:
-                        if 0.8 * amount < float(get_buying_power()) < 1.2 * amount:
-                            await buy_all(symbol, amount)
-
-                            with open('stock_picks.txt', "r") as f:
-                                lines = f.readlines()
-                            # Removes symbol from stock_picks.txt list
-                            # If symbol does not equal symbol, then write to file
-                            with open('stock_picks.txt', "w") as f:
-                                for line in lines:
-                                    values = line.split(",")
-                                    line.strip("\n")
-                                    if values[0] != symbol:
-                                        f.write(line)
-
-                            break
-                        else:
-                            fractional_shares = amount / get_quote(symbol)
-                            api.submit_order(
-                                symbol=symbol,
-                                qty=fractional_shares,
-                                side='buy',
-                                type='market',
-                                time_in_force='day')
-                            print("Purchased " + str(fractional_shares) + " of " + symbol)
-
-                            # Remove symbol from stock picks
-                            with open("stock_picks.txt", "r") as f:
-                                lines = f.readlines()
-                            # If file symbol does not equal symbol, then write line to file
-                            with open("stock_picks.txt", "w") as f:
-                                for line in lines:
-                                    values = line.split(",")
-                                    line.strip("\n")
-                                    if values[0] != symbol:
-                                        f.write(line)
-
-                            time.sleep(5)
-                            break
-                    except Exception as e:
-                        print(e)
-                    cnt += 1
-                f = open('holdings.txt', 'a')
-                f.write(symbol.strip('\n') + ',' + str(change.strip('\n')) + ',' + str(date.today()) + "\n")
-                f.close()
-                bought = True
-            return bought
         except Exception as e:
             print(e)
             cnt += 1
-    if cnt == 5:
-        print("Error occurred at trailing_buy. Unable to execute buying")
+        if cnt == 5:
+            print("Error occurred at trailing_buy. Unable to execute buying")
+            return bought
+
+        if is_market_open():
+            cnt = 0
+            while cnt < 5:
+                try:
+                    if 0.8 * amount < float(get_buying_power()) < 1.2 * amount:
+                        await buy_all(symbol, amount)
+
+                        with open('stock_picks.txt', "r") as f:
+                            lines = f.readlines()
+                        # Removes symbol from stock_picks.txt list
+                        # If symbol does not equal symbol, then write to file
+                        with open('stock_picks.txt', "w") as f:
+                            for line in lines:
+                                values = line.split(",")
+                                line.strip("\n")
+                                if values[0] != symbol:
+                                    f.write(line)
+
+                        break
+                    else:
+                        fractional_shares = amount / get_quote(symbol)
+                        api.submit_order(
+                            symbol=symbol,
+                            qty=fractional_shares,
+                            side='buy',
+                            type='market',
+                            time_in_force='day')
+                        print("Purchased " + str(fractional_shares) + " of " + symbol)
+
+                        # Remove symbol from stock picks
+                        with open("stock_picks.txt", "r") as f:
+                            lines = f.readlines()
+                        # If file symbol does not equal symbol, then write line to file
+                        with open("stock_picks.txt", "w") as f:
+                            for line in lines:
+                                values = line.split(",")
+                                line.strip("\n")
+                                if values[0] != symbol:
+                                    f.write(line)
+
+                        time.sleep(5)
+                        break
+                except Exception as e:
+                    print(e)
+                cnt += 1
+            f = open('holdings.txt', 'a')
+            f.write(symbol.strip('\n') + ',' + str(change.strip('\n')) + ',' + str(date.today()) + "\n")
+            f.close()
+            bought = True
+        return bought
 
 
 def get_slope(symbol, seconds):
