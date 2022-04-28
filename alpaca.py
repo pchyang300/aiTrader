@@ -477,7 +477,7 @@ async def trailing_buy(symbol, amount, change):
                     print(e)
                 cnt += 1
             f = open('holdings.txt', 'a')
-            f.write(symbol.strip('\n') + ',' + str(change.strip('\n')) + ',' + str(date.today()) + "\n")
+            f.write(symbol.strip('\n') + ',' + str(change).strip('\n') + ',' + str(date.today()) + "\n")
             f.close()
             bought = True
         return bought
