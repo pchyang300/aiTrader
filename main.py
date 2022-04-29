@@ -32,7 +32,7 @@ def get_length_of_stock_picks():
 while True:
     egg_basket = 2      # Determines how many different stocks to own at a time
     one_day = datetime.timedelta(days=1)
-    if (not is_market_open_tomorrow() and not is_market_open()) or \
+    if (not is_market_open_tomorrow() and time_to_market_close() > 86400) or \
             (not is_market_open_tomorrow() and get_length_of_holdings() == 0 and get_length_of_stock_picks() == 0):
         print("Tomorrow is the start of the weekend.")
         seconds = wait_until_num_hours_before_market_open(56)
