@@ -328,7 +328,7 @@ async def monitor_stock_gain(symbol, change):
 
                 # Sell all positions by end of week.
                 if not is_market_open_tomorrow() and time_before_market_close() < 300:
-                    sell_all(symbol)
+                    await sell_all(symbol)
                     await asyncio.sleep(600)
 
     except Exception as e:
