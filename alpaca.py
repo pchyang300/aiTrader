@@ -307,6 +307,7 @@ def liquidate_all_positions():
 async def monitor_stock_gain(symbol, change):
     try:
         if is_market_open():
+            day_trades = api.get_account().daytrade_count
             print(f"Monitoring price of {symbol}...")
             initial_price = get_entry_price(symbol)
             while initial_price is None:
@@ -319,15 +320,15 @@ async def monitor_stock_gain(symbol, change):
                 price = sum(lst) / len(lst)
                 gain = ((price - initial_price) / initial_price) * 100
                 print(f'Monitoring {symbol} ${price:.2f}        percent gain: {gain:.2f}%')
-                if gain > 0.75 * float(change):
+                if gain > 0.75 * float(change) and day_trades < 3:
                     await trailing_sell(symbol)
                     break
-                if gain < -10 and api.get_account().daytrade_count < 3:
+                if gain < -10 and day_trades < 3:
                     await sell_all(symbol)
                     break
 
                 # Sell all positions by end of week.
-                if not is_market_open_tomorrow() and time_before_market_close() < 300:
+                if not is_market_open_tomorrow() and time_before_market_close() < 300 and day_trades < 3:
                     await sell_all(symbol)
                     await asyncio.sleep(600)
 
