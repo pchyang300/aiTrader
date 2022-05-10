@@ -322,7 +322,7 @@ async def monitor_stock_gain(symbol, change):
                 if gain > 0.75 * float(change):
                     await trailing_sell(symbol)
                     break
-                if gain < -5:
+                if gain < -10 and api.get_account().daytrade_count < 3:
                     await sell_all(symbol)
                     break
 
